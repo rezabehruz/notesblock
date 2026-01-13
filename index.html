@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notesblock</title>
+    <script
+      src="https://kit.fontawesome.com/569b1abd88.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="./scripts/template.js"></script>
+    <script src="./script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/standard.css" />
+    <link rel="stylesheet" href="styles/assets.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="renderNotes()">
+    <header>
+      <div class="content"></div>
+    </header>
+    <main>
+      <div class="content">
+        <article class="new-note-content">
+          <button id="btn-new-note" class="roboto-medium">
+            <i class="fa-solid fa-square-plus"></i>
+          </button>
+          <section id="new-note" class="new-note">
+            <form id="new-note-form" class="open-sans-semi-bold">
+              <label for="title"> Title:</label>
+              <input type="text" name="title" id="title" required/>
+              <label for="description">Description:</label>
+              <input type="text" name="description" id="description" required/>
+              <button type="submit" class="open-sans-semi-bold">
+                Add Note
+              </button>
+            </form>
+          </section>
+        </article>
+        <article class="notes">
+          <section id="normal-note-content" class="normal-notes"></section>
+          <div id="archive-title" class="archive-title">
+            <h2>Archive</h2>
+            <hr />
+          </div>
+          <section
+            id="archive-note-content"
+            class="archive-notes"
+            aria-labelledby="archive-title"
+          ></section>
+          <div id="trash-title" class="trash-title">
+            <h2>Trash</h2>
+            <hr />
+          </div>
+          <section
+            id="trash-note-content"
+            class="trash-notes"
+            aria-labelledby="trash-title"
+          ></section>
+        </article>
+        <article>
+          <dialog id="edit-dialog" closedby="any" class="edit-dialog">
+            <form
+              action="#"
+              id="edit-note-form"
+              class="open-sans-semi-bold"
+              method="dialog"
+            >
+              <label for="title"> Title:</label>
+              <input type="text" name="title" id="title" required >
+              <label for="description">Description:</label>
+              <input type="text" name="description" id="description" required >
+              <input name="noteIndex" type="hidden" />
+              <button type="submit" class="open-sans-semi-bold">
+                Save Change
+              </button>
+              <button formmethod="dialog">Cancel</button>
+            </form>
+          </dialog>
+        </article>
+      </div>
+    </main>
+    <footer>
+      <div class="content"></div>
+    </footer>
+  </body>
+</html>
