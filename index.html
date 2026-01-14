@@ -38,9 +38,9 @@
           <section id="new-note" class="new-note">
             <form id="new-note-form" class="open-sans-semi-bold">
               <label for="title"> Title:</label>
-              <input type="text" name="title" id="title" required/>
+              <input type="text" name="title" id="title" required />
               <label for="description">Description:</label>
-              <input type="text" name="description" id="description" required/>
+              <input type="text" name="description" id="description" required />
               <button type="submit" class="open-sans-semi-bold">
                 Add Note
               </button>
@@ -49,7 +49,7 @@
         </article>
         <article class="notes">
           <section id="normal-note-content" class="normal-notes"></section>
-          <div id="archive-title" class="archive-title">
+          <div id="archive-title" class="archive-title roboto-bold">
             <h2>Archive</h2>
             <hr />
           </div>
@@ -58,7 +58,7 @@
             class="archive-notes"
             aria-labelledby="archive-title"
           ></section>
-          <div id="trash-title" class="trash-title">
+          <div id="trash-title" class="trash-title roboto-bold">
             <h2>Trash</h2>
             <hr />
           </div>
@@ -71,20 +71,20 @@
         <article>
           <dialog id="edit-dialog" closedby="any" class="edit-dialog">
             <form
-              action="#"
-              id="edit-note-form"
-              class="open-sans-semi-bold"
-              method="dialog"
+            id="edit-note-form"
+            class="open-sans-semi-bold" 
+            
             >
               <label for="title"> Title:</label>
-              <input type="text" name="title" id="title" required >
+              <input type="text" name="title" id="title" required/>
               <label for="description">Description:</label>
-              <input type="text" name="description" id="description" required >
-              <input name="noteIndex" type="hidden" />
-              <button type="submit" class="open-sans-semi-bold">
+              <input type="text" name="description" id="description"/> 
+              <input type="hidden" id="noteIndex" name="noteIndex" required/>
+              
+              <button formmethod="dialog" class="open-sans-semi-bold">
                 Save Change
               </button>
-              <button formmethod="dialog">Cancel</button>
+              <button onclick="closeDialog(event)">Cancel</button>
             </form>
           </dialog>
         </article>

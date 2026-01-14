@@ -1,3 +1,5 @@
+
+// #region Variables
 const btnNewNote = document.getElementById("btn-new-note");
 const newNotSection = document.getElementById("new-note");
 const newNoteForm = document.getElementById("new-note-form");
@@ -9,22 +11,42 @@ const trashNoteTitle = document.getElementById("trash-title");
 const editDialogRef = document.getElementById("edit-dialog");
 const editNoteForm = document.getElementById("edit-note-form");
 
-const notes = [
-["Gym", "Bizeps und Rücken trainieren.", "normal", "normal"],
-["Unterrichtszeiten", "ab 09:15 bis 10:00 Mo-Frei", "normal", "normal"],
-["Tee trinken", "von Lidl Tee kaufen.", "normal", "normal"],
-["Unterrichtszeiten", "ab 09:15 bis 10:00 Mo-Frei", "archive","normal"],
-["Gym", "Bizeps und Rücken trainieren.", "archive", "trash"],
-["Biliard spielen", "Freunde kontaktieren", "trash", "normal"],
-["Fußball spielen", "Freunde kontaktieren", "trash", "archive"],
-];
 
-/**
- * 
- */
+// #endregion
+
+
+// #region Local Storage
+
+const localNotes = localStorage.getItem("localNotes");
+let notes = JSON.parse(localNotes);
+
+if(notes == null){
+    notes = [
+             ["Gym", "Bizeps und Rücken trainieren.", "normal", "normal"],
+             ["Unterrichtszeiten", "ab 09:15 bis 10:00 Mo-Frei", "normal", "normal"],
+             ["Tee trinken", "von Lidl Tee kaufen.", "normal", "normal"],
+             ["Unterrichtszeiten", "ab 09:15 bis 10:00 Mo-Frei", "archive","normal"],
+             ["Gym", "Bizeps und Rücken trainieren.", "archive", "trash"],
+             ["Biliard spielen", "Freunde kontaktieren", "trash", "normal"],
+             ["Fußball spielen", "Freunde kontaktieren", "trash", "archive"],
+           ];
+}
+
+function updateLocalStorage(){
+   const jsonNotes = JSON.stringify(notes);
+   localStorage.setItem("localNotes", jsonNotes);
+}
+
+ document.body.onclick = function(){
+    this.style.overflow = "visible";
+ }
+// #endregion
+
+
+// #region CRUID Methods
 
 btnNewNote.onclick = function(){
-    newNotSection.style.display = "block";
+    newNotSection.style.display = "flex";
     this.style.display = "none";
 }
 
@@ -39,6 +61,8 @@ const title = newNoteForm.elements[0].value;
 const description = newNoteForm.elements[1].value;
 
 notes.unshift([title, description, "normal", "normal"]);
+
+updateLocalStorage();
 
 this.reset();
 newNotSection.style.display = "none";
@@ -83,25 +107,28 @@ function renderNotes(){
 
 function archiveNote(i){
     notes[i][2] = "archive";
+    updateLocalStorage();
     renderNotes();
 }
 
 /**
  * Render Edit Note Dialog
  */
-function renderEditDialog(i){
+function renderEditDialog(event,i){
+    event.stopPropagation();
     editNoteForm.elements[0].value = notes[i][0];
     editNoteForm.elements[1].value = notes[i][1];
     editNoteForm.elements[2].value = i;
+    
+    document.body.style.overflow = "hidden";    
     editDialogRef.showModal();
+  
 }
 
 /**
  * Edit Note: edit Title and Description of note.
  */
 editNoteForm.addEventListener("submit", function(event){
-    event.preventDefault();
-
     const newtitle = editNoteForm.elements[0].value;
     const newDescription=  editNoteForm.elements[1].value;
     const noteIndex = editNoteForm.elements[2].value;
@@ -109,9 +136,23 @@ editNoteForm.addEventListener("submit", function(event){
     notes[noteIndex][0] = newtitle;
     notes[noteIndex][1] = newDescription;
 
+    updateLocalStorage();
+
+    this.reset();
+    document.body.style.overflow = "visible";
+
     renderNotes();
 
 })
+
+/** 
+ * close Edit Dialog 
+*/
+function closeDialog(event){
+    event.preventDefault();
+    document.body.style.overflow = "visible";
+    editDialogRef.close();
+}
 
 /**
  * Move Notes to Trash: Type of note changes to "trash"
@@ -127,6 +168,8 @@ function moveToTrash(i){
         notes[i][2] = "trash";
     }
 
+    updateLocalStorage();
+
     renderNotes();
 }
 
@@ -137,6 +180,7 @@ function moveToTrash(i){
 
 function deleteNote(i){
     notes.splice(i,1);
+    updateLocalStorage();
     renderNotes();
 }
 
@@ -164,6 +208,10 @@ function moveBack(i){
     }
     else console.log("Fehler !!");
 
+    updateLocalStorage();
+
     renderNotes();
  
 }
+
+// #endregion
